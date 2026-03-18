@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ArrowLeft, Heart, Star, Clock, Info, Plus } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, Heart, Star, Clock, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
+import type { CartItem } from '../../context/AppContext';
 
 const menuItems = [
   { id: 1, name: 'Whopper Meal', description: 'Flame-grilled beef patty with fries and drink', price: 8.99, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=150&q=80' },
@@ -10,11 +11,10 @@ const menuItems = [
 
 const Restaurant = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
   const { cart, setCart } = useAppContext();
   const [tab, setTab] = useState<'Menu' | 'Reviews' | 'Info'>('Menu');
 
-  const addToCart = (item: any) => {
+  const addToCart = (item: CartItem) => {
     setCart([...cart, item]);
   };
 

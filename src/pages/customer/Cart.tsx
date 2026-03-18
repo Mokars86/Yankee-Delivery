@@ -1,11 +1,11 @@
-import { ArrowLeft, MapPin, CreditCard, Banknote, Smartphone, Minus, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, MapPin, CreditCard, Banknote, Smartphone, Minus, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, setCart } = useAppContext();
+  const { cart } = useAppContext();
   const [payment, setPayment] = useState('Mobile Money');
 
   const handleCheckout = () => {

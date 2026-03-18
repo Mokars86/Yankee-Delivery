@@ -6,40 +6,81 @@ const Welcome = () => {
   const navigate = useNavigate();
   const { setRole } = useAppContext();
 
-  const handleSelectRole = (role: 'customer' | 'merchant') => {
+  const handleSelect = (role: 'customer' | 'merchant') => {
     setRole(role);
     navigate('/auth/login');
   };
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center p-6 animate-fade-in" style={{ height: '100vh' }}>
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm text-center">
-        <div className="w-48 h-48 bg-orange-100 rounded-full flex items-center justify-center mb-8" style={{ backgroundColor: 'var(--primary-light)', opacity: 0.8 }}>
-          <ShoppingBag size={80} color="white" />
-        </div>
-        
-        <h1 className="text-3xl font-bold mb-2">Welcome to Yankee!</h1>
-        <p className="text-muted mb-10">Choose how you want to use the app today.</p>
+    <div className="animate-fade-in" style={{
+      minHeight: '100svh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 'calc(var(--safe-top) + 3rem) 1.5rem calc(var(--safe-bottom) + 2.5rem)',
+      backgroundColor: 'var(--surface-color)',
+    }}>
+      {/* Hero */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', textAlign: 'center' }}>
 
-        <div className="w-full flex-col gap-4" style={{ display: 'flex' }}>
-          <button 
-            className="btn btn-primary btn-full flex items-center justify-center gap-2 text-lg py-4"
-            onClick={() => handleSelectRole('customer')}
-          >
-            <ShoppingBag size={24} />
-            Continue as Customer
-          </button>
-          
-          <button 
-            className="btn btn-outline btn-full flex items-center justify-center gap-2 text-lg py-4 mt-4"
-            onClick={() => handleSelectRole('merchant')}
-          >
-            <Store size={24} />
-            Continue as Merchant
-          </button>
+        {/* Logo badge */}
+        <div style={{
+          width: '9rem', height: '9rem',
+          borderRadius: '2.5rem',
+          background: 'linear-gradient(145deg, #f0faf1, #d4f0d7)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 16px 48px rgba(46,158,58,0.22)',
+          padding: '0.75rem',
+          overflow: 'hidden',
+        }}>
+          <img
+            src="/logo.png"
+            alt="Yankee Delivery"
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          />
         </div>
+
+        <div>
+          <h1 style={{ marginBottom: '0.5rem' }}>Welcome to<br />Yankee!</h1>
+          <p style={{ maxWidth: '22rem', margin: '0 auto' }}>
+            Order food, groceries, or packages — all in one app.
+          </p>
+        </div>
+
+        {/* Feature pills */}
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.25rem' }}>
+          {['🍔 Food', '🛒 Groceries', '💊 Pharmacy', '📦 Parcels'].map(label => (
+            <span key={label} style={{
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              color: 'var(--primary)',
+              background: 'var(--primary-bg)',
+              padding: '0.3rem 0.75rem',
+              borderRadius: 'var(--radius-full)',
+            }}>{label}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Role buttons */}
+      <div style={{ width: '100%', maxWidth: '24rem', display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+        <button className="btn btn-primary btn-full" onClick={() => handleSelect('customer')}
+          style={{ fontSize: '1rem', padding: '1rem', gap: '0.625rem' }}>
+          <ShoppingBag size={22} />
+          Continue as Customer
+        </button>
+        <button className="btn btn-outline btn-full" onClick={() => handleSelect('merchant')}
+          style={{ fontSize: '1rem', padding: '1rem', gap: '0.625rem' }}>
+          <Store size={22} />
+          Continue as Merchant
+        </button>
+        <p className="text-muted text-xs text-center" style={{ marginTop: '0.25rem' }}>
+          By continuing you agree to our Terms &amp; Privacy Policy.
+        </p>
       </div>
     </div>
   );
 };
+
 export default Welcome;

@@ -3,129 +3,163 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { ArrowLeft, Mail, Phone, Lock, KeyRound } from 'lucide-react';
 
+const inputWrap: React.CSSProperties = {
+  position: 'relative',
+  marginBottom: '0.875rem',
+};
+const iconStyle: React.CSSProperties = {
+  position: 'absolute',
+  left: '0.875rem',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: 'var(--text-muted)',
+  pointerEvents: 'none',
+};
+const inputStyle: React.CSSProperties = {
+  paddingLeft: '2.75rem',
+  marginBottom: 0,
+  fontSize: '1rem',
+};
+
 const Login = () => {
   const navigate = useNavigate();
   const { role } = useAppContext();
-  
   const [isLogin, setIsLogin] = useState(true);
   const [step, setStep] = useState<'details' | 'otp'>('details');
 
-  const handleBack = () => {
-    if (step === 'otp') {
-      setStep('details');
-    } else {
-      navigate('/welcome');
-    }
-  };
+  const goBack = () => step === 'otp' ? setStep('details') : navigate('/welcome');
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
     setStep('otp');
   };
 
-  const handleVerifyOTP = (e: React.FormEvent) => {
+  const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    // Redirect based on role
-    if (role === 'merchant') {
-      navigate('/merchant/dashboard');
-    } else {
-      navigate('/customer/home');
-    }
+    navigate(role === 'merchant' ? '/merchant/dashboard' : '/customer/home', { replace: true });
   };
 
   return (
-    <div className="h-full w-full flex flex-col p-6 animate-fade-in" style={{ height: '100vh', backgroundColor: 'var(--surface-color)' }}>
-      <button 
-        onClick={handleBack}
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 mb-6"
-        style={{ border: 'none', cursor: 'pointer', backgroundColor: 'var(--bg-color)' }}
-      >
+    <div className="animate-fade-in" style={{
+      minHeight: '100svh',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: 'calc(var(--safe-top) + 1rem) 1.5rem calc(var(--safe-bottom) + 1.5rem)',
+      backgroundColor: 'var(--surface-color)',
+    }}>
+      {/* Back button */}
+      <button onClick={goBack} className="icon-btn icon-btn-ghost"
+        style={{ marginBottom: '1.75rem', alignSelf: 'flex-start' }}>
         <ArrowLeft size={20} />
       </button>
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">
-          {step === 'otp' ? 'Verification' : isLogin ? 'Welcome Back!' : 'Create Account'}
+      {/* Heading */}
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{ marginBottom: '0.375rem' }}>
+          {step === 'otp' ? 'Verify OTP' : isLogin ? 'Welcome back!' : 'Create account'}
         </h1>
-        <p className="text-muted">
-          {step === 'otp' 
-            ? 'Enter the 4-digit OTP sent to your phone/email.' 
-            : `Please enter your details to ${isLogin ? 'sign in' : 'sign up'}.`}
+        <p>
+          {step === 'otp'
+            ? 'Enter the 4-digit code sent to your number.'
+            : `Sign ${isLogin ? 'in' : 'up'} to continue.`}
         </p>
       </div>
 
       {step === 'details' ? (
-        <form onSubmit={handleContinue} className="flex flex-col flex-1">
-          <div className="flex-1 flex flex-col gap-4">
-            <div className="relative">
-              <Phone size={20} className="absolute left-3 top-3.5 text-muted" style={{ color: 'var(--text-muted)' }} />
-              <input type="tel" placeholder="Phone number" style={{ paddingLeft: '2.5rem' }} required />
+        <form onSubmit={handleContinue} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1 }}>
+            {/* Phone */}
+            <div style={inputWrap}>
+              <Phone size={18} style={iconStyle} />
+              <input type="tel" placeholder="Phone number" style={inputStyle} required />
             </div>
 
+            {/* Email (signup only) */}
             {!isLogin && (
-              <div className="relative animate-fade-in">
-                <Mail size={20} className="absolute left-3 top-3.5 text-muted" style={{ color: 'var(--text-muted)' }} />
-                <input type="email" placeholder="Email address (Optional)" style={{ paddingLeft: '2.5rem' }} />
+              <div style={inputWrap} className="animate-fade-in">
+                <Mail size={18} style={iconStyle} />
+                <input type="email" placeholder="Email address (optional)" style={inputStyle} />
               </div>
             )}
 
-            <div className="relative">
-              <Lock size={20} className="absolute left-3 top-3.5 text-muted" style={{ color: 'var(--text-muted)' }} />
-              <input type="password" placeholder="Password" style={{ paddingLeft: '2.5rem' }} required />
+            {/* Password */}
+            <div style={inputWrap}>
+              <Lock size={18} style={iconStyle} />
+              <input type="password" placeholder="Password" style={inputStyle} required />
             </div>
 
-            {isLogin && <div className="text-right text-sm font-medium text-primary cursor-pointer mt-[-0.5rem]">Forgot password?</div>}
+            {isLogin && (
+              <div style={{ textAlign: 'right', marginTop: '-0.25rem', marginBottom: '1rem' }}>
+                <span className="text-primary text-sm font-semibold" style={{ cursor: 'pointer' }}>
+                  Forgot password?
+                </span>
+              </div>
+            )}
           </div>
 
-          <div className="mt-8">
-            <button type="submit" className="btn btn-primary btn-full mb-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <button type="submit" className="btn btn-primary btn-full" style={{ padding: '1rem' }}>
               Continue
             </button>
-            <div className="text-center text-muted">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <span 
-                className="text-primary font-bold cursor-pointer" 
-                onClick={() => setIsLogin(!isLogin)}
-              >
+            <p className="text-center text-muted" style={{ fontSize: '0.9rem' }}>
+              {isLogin ? "Don't have an account? " : 'Already have an account? '}
+              <span className="text-primary font-bold" style={{ cursor: 'pointer' }}
+                onClick={() => setIsLogin(!isLogin)}>
                 {isLogin ? 'Sign up' : 'Log in'}
               </span>
-            </div>
+            </p>
           </div>
         </form>
       ) : (
-        <form onSubmit={handleVerifyOTP} className="flex flex-col flex-1 animate-fade-in">
-          <div className="flex-1 flex flex-col items-center gap-6 mt-4">
-            <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-2" style={{ backgroundColor: 'var(--primary-light)', opacity: 0.8 }}>
-              <KeyRound size={32} color="white" />
+        <form onSubmit={handleVerify} className="animate-fade-in"
+          style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1rem', gap: '1.5rem' }}>
+            <div style={{
+              width: '5rem', height: '5rem', borderRadius: '1.5rem',
+              background: 'linear-gradient(135deg, var(--primary-light), var(--primary))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 8px 24px rgba(244,130,37,0.3)',
+            }}>
+              <KeyRound size={28} color="#fff" />
             </div>
-            
-            <div className="flex gap-3 justify-center">
-              {[1, 2, 3, 4].map((i) => (
-                <input 
-                  key={i} 
-                  type="text" 
-                  maxLength={1} 
-                  className="w-14 h-14 text-center text-2xl font-bold"
-                  style={{ borderRadius: 'var(--radius-lg)', margin: 0 }}
-                  placeholder="-"
+
+            {/* OTP boxes */}
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              {[0, 1, 2, 3].map(i => (
+                <input
+                  key={i}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  placeholder="—"
                   required
+                  style={{
+                    width: '3.5rem',
+                    height: '3.75rem',
+                    textAlign: 'center',
+                    fontSize: '1.5rem',
+                    fontWeight: 700,
+                    borderRadius: 'var(--radius-lg)',
+                    marginBottom: 0,
+                    padding: '0.5rem',
+                  }}
                 />
               ))}
             </div>
 
-            <div className="text-center text-muted text-sm mt-4">
-              Didn't receive code? <span className="text-primary font-bold cursor-pointer">Resend</span>
-            </div>
+            <p className="text-center text-muted text-sm">
+              Didn't receive code?{' '}
+              <span className="text-primary font-bold" style={{ cursor: 'pointer' }}>Resend</span>
+            </p>
           </div>
 
-          <div className="mt-8">
-            <button type="submit" className="btn btn-primary btn-full mb-4">
-              Verify & Proceed
-            </button>
-          </div>
+          <button type="submit" className="btn btn-primary btn-full" style={{ padding: '1rem' }}>
+            Verify & Continue
+          </button>
         </form>
       )}
     </div>
   );
 };
+
 export default Login;

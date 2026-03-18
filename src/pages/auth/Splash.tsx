@@ -1,40 +1,84 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package } from 'lucide-react';
 
 const Splash = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/welcome', { replace: true });
-    }, 2500);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => navigate('/welcome', { replace: true }), 2500);
+    return () => clearTimeout(t);
   }, [navigate]);
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center bg-[var(--primary)] text-white animate-fade-in" style={{ height: '100vh', backgroundColor: 'var(--primary)', color: 'white' }}>
-      <div className="flex flex-col items-center animate-pulse" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
-        <Package size={80} strokeWidth={1.5} />
-        <h1 className="mt-4 text-4xl font-bold tracking-tight">Yankee Delivery</h1>
-        <p className="mt-2 text-lg opacity-90 font-medium">Fast. Reliable. Everywhere.</p>
+    <div style={{
+      height: '100%',
+      minHeight: '100svh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(160deg, #1E7A28 0%, #2E9E3A 55%, #3DB84A 100%)',
+      color: '#fff',
+      gap: '0.75rem',
+      padding: '2rem',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Background decorative circles */}
+      <div style={{
+        position: 'absolute', top: '-8%', right: '-18%',
+        width: '22rem', height: '22rem',
+        borderRadius: '50%', background: 'rgba(255,255,255,0.06)',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '5%', left: '-15%',
+        width: '18rem', height: '18rem',
+        borderRadius: '50%', background: 'rgba(245,166,35,0.12)',
+      }} />
+      <div style={{
+        position: 'absolute', top: '30%', left: '-5%',
+        width: '8rem', height: '8rem',
+        borderRadius: '50%', background: 'rgba(255,255,255,0.04)',
+      }} />
+
+      {/* Logo + App name */}
+      <div className="animate-pulse" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', zIndex: 1 }}>
+        <div style={{
+          width: '7rem', height: '7rem',
+          borderRadius: '2rem',
+          background: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.20)',
+          padding: '0.5rem',
+          overflow: 'hidden',
+        }}>
+          <img
+            src="/logo.png"
+            alt="Yankee Delivery Logo"
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <h1 style={{ fontSize: 'clamp(1.75rem, 7vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', margin: 0 }}>
+            Yankee Delivery
+          </h1>
+          <p style={{ fontSize: '1rem', opacity: 0.85, fontWeight: 500, margin: '0.25rem 0 0' }}>
+            Fast. Reliable. Everywhere.
+          </p>
+        </div>
       </div>
 
-      <div className="absolute bottom-16 flex flex-col items-center">
-        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" style={{ animation: 'spin 1s linear infinite', borderTopColor: 'transparent', borderRadius: '50%', borderWidth: '4px' }}></div>
+      {/* Loading spinner */}
+      <div style={{ position: 'absolute', bottom: 'calc(2.5rem + var(--safe-bottom))', zIndex: 1 }}>
+        <div className="animate-spin" style={{
+          width: '2.25rem', height: '2.25rem',
+          border: '3px solid rgba(255,255,255,0.30)',
+          borderTopColor: '#fff',
+          borderRadius: '50%',
+        }} />
       </div>
-      
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 };
+
 export default Splash;

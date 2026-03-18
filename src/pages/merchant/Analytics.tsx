@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 const Analytics = () => {
   // Mock data for the chart bars

@@ -73,9 +73,8 @@ const Orders = () => {
           {/* Vertical line connecting steps */}
           <div className="absolute left-[31px] top-6 bottom-8 w-0.5 bg-gray-100 z-0"></div>
           
-          {stages.map((stage, idx) => {
+          {stages.map((stage) => {
             const Icon = stage.icon;
-            const isLast = idx === stages.length - 1;
             
             return (
               <div key={stage.id} className="flex gap-4 items-start relative z-10 mb-6">

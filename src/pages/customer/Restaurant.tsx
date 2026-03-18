@@ -9,72 +9,159 @@ const menuItems = [
   { id: 2, name: 'Chicken Royale', description: 'Crispy chicken breast with fresh lettuce', price: 6.99, image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=150&q=80' },
 ];
 
+const tabs = ['Menu', 'Reviews', 'Info'] as const;
+
 const Restaurant = () => {
   const navigate = useNavigate();
   const { cart, setCart } = useAppContext();
-  const [tab, setTab] = useState<'Menu' | 'Reviews' | 'Info'>('Menu');
+  const [tab, setTab] = useState<typeof tabs[number]>('Menu');
+  const [liked, setLiked] = useState(false);
 
   const addToCart = (item: CartItem) => {
     setCart([...cart, item]);
   };
 
   return (
-    <div className="bg-[var(--bg-color)] min-h-screen pb-24 animate-fade-in w-full max-w-[600px] mx-auto relative">
-      <div className="relative h-64 w-full">
-        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Restaurant" className="w-full h-full object-cover" />
-        <div className="absolute top-0 left-0 w-full p-4 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent">
-          <button 
-            onClick={() => navigate(-1)} 
-            className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white"
+    <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100svh', paddingBottom: '7rem', display: 'flex', flexDirection: 'column' }} className="animate-fade-in">
+
+      {/* ── Hero image ──────────────────────────── */}
+      <div style={{ position: 'relative', height: '17rem', width: '100%', flexShrink: 0 }}>
+        <img
+          src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+          alt="Restaurant"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        {/* Strong gradient overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 45%, rgba(0,0,0,0.2) 100%)' }} />
+
+        {/* Back + heart buttons */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+          <button
+            onClick={() => navigate(-1)}
+            style={{
+              width: '2.5rem', height: '2.5rem',
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.22)',
+              backdropFilter: 'blur(10px)',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#fff',
+            }}
           >
             <ArrowLeft size={20} />
           </button>
-          <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
-            <Heart size={20} />
+          <button
+            onClick={() => setLiked(!liked)}
+            style={{
+              width: '2.5rem', height: '2.5rem',
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.22)',
+              backdropFilter: 'blur(10px)',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
+            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <Heart size={20} fill={liked ? '#ef4444' : 'none'} color={liked ? '#ef4444' : '#fff'} />
           </button>
         </div>
       </div>
 
-      <div className="bg-white -mt-6 rounded-t-3xl relative p-6 shadow-sm" style={{ backgroundColor: 'var(--surface-color)' }}>
-        <h1 className="text-2xl font-bold mb-2">Burger King</h1>
-        <div className="flex gap-4 mb-4 text-sm font-medium">
-          <div className="flex items-center gap-1 text-muted">
-            <Star size={16} fill="var(--warning)" color="var(--warning)" />
-            <span className="text-black font-bold text-base">4.8</span> (1.2k reviews)
-          </div>
-          <div className="flex items-center gap-1 text-muted">
-            <Clock size={16} />
-            20-30 min
-          </div>
-        </div>
-        
-        <p className="text-muted text-sm mb-6">American, Fast Food • $</p>
+      {/* ── Info card ──────────────────────────── */}
+      <div style={{
+        backgroundColor: 'var(--surface-color)',
+        borderRadius: '1.75rem 1.75rem 0 0',
+        marginTop: '-1.5rem',
+        padding: '1.5rem 1.25rem 0',
+        flex: 1,
+        boxShadow: '0 -8px 24px rgba(0,0,0,0.08)',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        {/* Name & basics */}
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 900, margin: '0 0 0.75rem', letterSpacing: '-0.03em' }}>Burger King</h1>
 
-        <div className="flex gap-6 border-b border-gray-100 mb-6">
-          {['Menu', 'Reviews', 'Info'].map((t) => (
-            <div 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+          {/* Rating */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'var(--bg-color)', borderRadius: 'var(--radius-full)', padding: '0.3rem 0.7rem' }}>
+            <Star size={14} fill="var(--warning)" color="var(--warning)" />
+            <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>4.8</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>(1.2k)</span>
+          </div>
+          {/* Time */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'var(--primary-bg)', borderRadius: 'var(--radius-full)', padding: '0.3rem 0.7rem' }}>
+            <Clock size={13} color="var(--primary)" />
+            <span style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--primary)' }}>20-30 min</span>
+          </div>
+          {/* Cuisine */}
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>American · Fast Food · $</span>
+        </div>
+
+        {/* ── Pill Tabs ──────────────────────── */}
+        <div style={{
+          display: 'flex',
+          gap: '0.5rem',
+          marginBottom: '1.5rem',
+          background: 'var(--bg-color)',
+          borderRadius: 'var(--radius-full)',
+          padding: '0.3rem',
+        }}>
+          {tabs.map(t => (
+            <button
               key={t}
-              onClick={() => setTab(t as any)}
-              className={`pb-2 text-sm font-bold cursor-pointer transition-colors ${tab === t ? 'text-primary border-b-2 border-primary' : 'text-muted'}`}
+              onClick={() => setTab(t)}
+              style={{
+                flex: 1,
+                padding: '0.5rem',
+                borderRadius: 'var(--radius-full)',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                transition: 'all var(--transition-fast)',
+                background: tab === t ? 'var(--primary)' : 'transparent',
+                color: tab === t ? '#fff' : 'var(--text-muted)',
+                boxShadow: tab === t ? '0 4px 12px rgba(46,158,58,0.35)' : 'none',
+              }}
             >
               {t}
-            </div>
+            </button>
           ))}
         </div>
 
+        {/* ── Menu Items ─────────────────────── */}
         {tab === 'Menu' && (
-          <div className="flex flex-col gap-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {menuItems.map(item => (
-              <div key={item.id} className="flex gap-4 items-center">
-                <img src={item.image} alt={item.name} className="w-24 h-24 rounded-xl object-cover shadow-sm" />
-                <div className="flex-1 flex flex-col justify-center">
-                  <h3 className="font-bold text-lg">{item.name}</h3>
-                  <p className="text-muted text-xs mb-2 line-clamp-2">{item.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-lg">${item.price}</span>
-                    <button 
+              <div key={item.id} style={{
+                display: 'flex', gap: '1rem', alignItems: 'center',
+                background: 'var(--bg-color)',
+                borderRadius: 'var(--radius-xl)',
+                padding: '0.875rem',
+                border: '1px solid var(--border-color)',
+              }}>
+                <img src={item.image} alt={item.name} style={{ width: '5.5rem', height: '5.5rem', borderRadius: 'var(--radius-lg)', objectFit: 'cover', flexShrink: 0 }} />
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.25rem' }}>{item.name}</h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.6rem' }} className="line-clamp-2">{item.description}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--primary)' }}>${item.price}</span>
+                    <button
                       onClick={() => addToCart(item)}
-                      className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md active:scale-95 transition-transform"
+                      style={{
+                        width: '2.1rem', height: '2.1rem',
+                        borderRadius: '50%',
+                        background: 'var(--primary)',
+                        color: '#fff',
+                        border: 'none', cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: '0 4px 12px rgba(46,158,58,0.4)',
+                        transition: 'transform var(--transition-fast)',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.12)')}
+                      onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
                     >
                       <Plus size={16} strokeWidth={3} />
                     </button>
@@ -84,20 +171,43 @@ const Restaurant = () => {
             ))}
           </div>
         )}
-
-        {tab === 'Reviews' && <div className="text-center text-muted py-8">No reviews yet.</div>}
-        {tab === 'Info' && <div className="text-center text-muted py-8">Restaurant information goes here.</div>}
+        {tab === 'Reviews' && (
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '3rem 1rem' }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>💬</div>
+            <p style={{ fontWeight: 600 }}>No reviews yet.</p>
+          </div>
+        )}
+        {tab === 'Info' && (
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '3rem 1rem' }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🏪</div>
+            <p style={{ fontWeight: 600 }}>Restaurant information goes here.</p>
+          </div>
+        )}
       </div>
 
+      {/* ── Floating Cart Bar ─────────────────── */}
       {cart.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-[568px] z-50 animate-fade-in">
-          <button 
+        <div className="animate-fade-in" style={{ position: 'fixed', bottom: 'calc(1.25rem + var(--safe-bottom))', left: '50%', transform: 'translateX(-50%)', width: 'calc(100% - 2rem)', maxWidth: '440px', zIndex: 50 }}>
+          <button
             onClick={() => navigate('/customer/cart')}
-            className="w-full bg-primary text-white py-4 px-6 rounded-2xl font-bold flex justify-between items-center shadow-lg"
+            style={{
+              width: '100%',
+              background: 'linear-gradient(135deg, #1E7A28, #3DB84A)',
+              color: '#fff',
+              border: 'none', cursor: 'pointer',
+              borderRadius: 'var(--radius-xl)',
+              padding: '1rem 1.25rem',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              fontWeight: 700,
+              boxShadow: '0 8px 28px rgba(46,158,58,0.45)',
+              fontSize: '0.95rem',
+            }}
           >
-            <div className="bg-white/20 px-3 py-1 rounded-lg">{cart.length} items</div>
+            <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.3rem 0.75rem', borderRadius: 'var(--radius-lg)', fontSize: '0.85rem' }}>
+              {cart.length} item{cart.length !== 1 ? 's' : ''}
+            </div>
             <span>View Cart</span>
-            <span>${cart.reduce((acc, i) => acc + i.price, 0).toFixed(2)}</span>
+            <span style={{ fontWeight: 800 }}>${cart.reduce((acc, i) => acc + i.price, 0).toFixed(2)}</span>
           </button>
         </div>
       )}

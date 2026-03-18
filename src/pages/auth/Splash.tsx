@@ -62,7 +62,7 @@ const Splash = () => {
           <h1 style={{ fontSize: 'clamp(1.75rem, 7vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', margin: 0 }}>
             Yankee Delivery
           </h1>
-          <p style={{ fontSize: '1rem', opacity: 0.85, fontWeight: 500, margin: '0.25rem 0 0' }}>
+          <p style={{ fontSize: '1rem', fontWeight: 600, margin: '0.25rem 0 0', letterSpacing: '0.03em', color: '#F5A623', textShadow: '0 1px 4px rgba(0,0,0,0.20)' }}>
             Fast. Reliable. Everywhere.
           </p>
         </div>

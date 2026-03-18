@@ -1,96 +1,192 @@
-import { ArrowLeft, MapPin, Navigation, PackageCheck, CookingPot, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Navigation, PackageCheck, CookingPot, CheckCircle2, Phone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const stages = [
-  { id: 1, name: 'Order received', time: '12:30 PM', icon: PackageCheck, status: 'completed' },
-  { id: 2, name: 'Preparing', time: '12:35 PM', icon: CookingPot, status: 'completed' },
-  { id: 3, name: 'Rider picking up', time: '12:45 PM', icon: MapPin, status: 'active' },
-  { id: 4, name: 'On the way', time: '--:--', icon: Navigation, status: 'pending' },
-  { id: 5, name: 'Delivered', time: '--:--', icon: CheckCircle2, status: 'pending' },
+  { id: 1, name: 'Order received',  time: '12:30 PM', icon: PackageCheck, status: 'completed' },
+  { id: 2, name: 'Preparing',       time: '12:35 PM', icon: CookingPot,   status: 'completed' },
+  { id: 3, name: 'Rider picking up',time: '12:45 PM', icon: MapPin,       status: 'active' },
+  { id: 4, name: 'On the way',      time: '--:--',    icon: Navigation,   status: 'pending' },
+  { id: 5, name: 'Delivered',       time: '--:--',    icon: CheckCircle2, status: 'pending' },
 ];
 
 const Orders = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-[var(--surface-color)] min-h-screen pb-24 animate-fade-in w-full max-w-[600px] mx-auto flex flex-col">
-      <header className="absolute top-0 w-full p-4 flex items-center gap-4 z-20">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center">
+    <div className="animate-fade-in" style={{ backgroundColor: 'var(--surface-color)', minHeight: '100svh', paddingBottom: '2rem', display: 'flex', flexDirection: 'column' }}>
+
+      {/* ── Map placeholder ──────────────────── */}
+      <div style={{ position: 'relative', height: '17rem', flexShrink: 0, overflow: 'hidden' }}>
+        <img
+          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=600&q=80"
+          alt="Map tracking"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        {/* Overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2))' }} />
+
+        {/* Back button */}
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            position: 'absolute', top: 'calc(1rem + var(--safe-top))', left: '1rem',
+            width: '2.5rem', height: '2.5rem',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.9)',
+            backdropFilter: 'blur(8px)',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: 'var(--shadow-md)',
+          }}
+        >
           <ArrowLeft size={20} />
         </button>
-      </header>
 
-      {/* Map Placeholder */}
-      <div className="h-72 w-full bg-gray-200 relative overflow-hidden flex-shrink-0">
-        <img 
-          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=600&q=80" 
-          alt="Map tracking" 
-          className="w-full h-full object-cover opacity-80"
-        />
-        {/* Mock pins */}
-        <div className="absolute top-1/2 left-1/3 bottom-10 animate-bounce">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-[var(--primary)]">
-            <span className="text-xl">🛵</span>
+        {/* Rider pin */}
+        <div className="animate-bounce" style={{ position: 'absolute', top: '45%', left: '33%' }}>
+          <div style={{
+            width: '3rem', height: '3rem', borderRadius: '50%',
+            background: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+            border: '3px solid var(--primary)',
+            fontSize: '1.25rem',
+          }}>
+            🛵
           </div>
         </div>
-        <div className="absolute top-1/3 right-1/4">
-          <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center shadow-lg text-white">
-            <MapPin size={16} />
+
+        {/* Destination pin */}
+        <div style={{ position: 'absolute', top: '30%', right: '25%' }}>
+          <div style={{
+            width: '2.25rem', height: '2.25rem', borderRadius: '50%',
+            background: 'var(--text-main)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+          }}>
+            <MapPin size={14} color="#fff" />
           </div>
         </div>
-        
-        {/* Estimated time pill */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg font-bold flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
-          15 mins away
+
+        {/* ETA pill */}
+        <div style={{
+          position: 'absolute', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+          background: '#fff',
+          padding: '0.5rem 1.25rem',
+          borderRadius: 'var(--radius-full)',
+          boxShadow: 'var(--shadow-lg)',
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+          whiteSpace: 'nowrap',
+        }}>
+          <span style={{ width: '0.6rem', height: '0.6rem', borderRadius: '50%', background: 'var(--primary)', display: 'inline-block' }} className="animate-ping" />
+          <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>15 mins away</span>
         </div>
       </div>
 
-      <div className="flex-1 p-6 relative z-10 bg-white -mt-4 rounded-t-3xl shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-        <div className="flex justify-between items-start mb-6">
+      {/* ── Bottom sheet ─────────────────────── */}
+      <div style={{
+        flex: 1,
+        backgroundColor: 'var(--surface-color)',
+        borderRadius: '1.75rem 1.75rem 0 0',
+        marginTop: '-1.5rem',
+        padding: '1.5rem 1.25rem',
+        position: 'relative', zIndex: 1,
+        boxShadow: '0 -8px 24px rgba(0,0,0,0.08)',
+      }}>
+
+        {/* Order title row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
           <div>
-            <h2 className="text-xl font-bold">Order #84J92Z</h2>
-            <p className="text-muted text-sm mt-1">Burger King • $11.98</p>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 900, margin: '0 0 0.25rem', letterSpacing: '-0.02em' }}>Order #84J92Z</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: 0, fontWeight: 500 }}>Burger King · $11.98</p>
           </div>
-          <button className="bg-orange-50 text-[var(--primary)] text-sm font-bold px-3 py-1.5 rounded-lg">Help</button>
+          <button style={{
+            background: 'var(--primary-bg)', color: 'var(--primary)',
+            border: 'none', cursor: 'pointer',
+            padding: '0.45rem 0.875rem',
+            borderRadius: 'var(--radius-lg)',
+            fontSize: '0.82rem', fontWeight: 700,
+          }}>
+            Help
+          </button>
         </div>
 
-        <div className="flex bg-gray-50 rounded-xl p-4 items-center gap-4 mb-8 border border-gray-100">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" alt="Rider" className="w-12 h-12 rounded-full object-cover shadow-sm" />
-          <div className="flex-1">
-            <h3 className="font-bold">Michael K.</h3>
-            <p className="text-xs text-muted flex items-center gap-1 mt-0.5">
-              <span className="text-yellow-500 font-bold">★ 4.9</span> • 2,410 Deliveries
+        {/* ── Rider card ───────────────────────── */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '0.875rem',
+          background: 'var(--bg-color)',
+          borderRadius: 'var(--radius-xl)',
+          padding: '0.875rem',
+          marginBottom: '1.5rem',
+          border: '1px solid var(--border-color)',
+        }}>
+          <img
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80"
+            alt="Rider"
+            style={{ width: '3.25rem', height: '3.25rem', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--primary)' }}
+          />
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontWeight: 800, fontSize: '0.95rem', margin: 0 }}>Michael K.</h3>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.2rem 0 0', fontWeight: 600 }}>
+              ⭐ 4.9 &nbsp;·&nbsp; 2,410 Deliveries
             </p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[var(--primary)] text-white flex items-center justify-center shadow-md">
-            <Navigation size={18} />
-          </div>
+          <button style={{
+            width: '2.5rem', height: '2.5rem', borderRadius: '50%',
+            background: 'linear-gradient(135deg, var(--primary-light), var(--primary))',
+            color: '#fff',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(46,158,58,0.4)',
+          }}>
+            <Phone size={16} />
+          </button>
         </div>
 
-        <h3 className="font-bold text-lg mb-4">Track Order</h3>
-        <div className="flex flex-col gap-0 relative pl-4">
-          {/* Vertical line connecting steps */}
-          <div className="absolute left-[31px] top-6 bottom-8 w-0.5 bg-gray-100 z-0"></div>
-          
-          {stages.map((stage) => {
+        {/* ── Timeline ─────────────────────────── */}
+        <h3 style={{ fontWeight: 800, fontSize: '1rem', margin: '0 0 1.25rem', letterSpacing: '-0.01em' }}>Track Order</h3>
+        <div style={{ position: 'relative', paddingLeft: '2.75rem' }}>
+          {/* Connector line */}
+          <div style={{
+            position: 'absolute', left: '1.125rem', top: '1.25rem', bottom: '1.25rem',
+            width: '2px',
+            background: 'linear-gradient(to bottom, var(--primary) 40%, var(--border-color) 40%)',
+          }} />
+
+          {stages.map((stage, idx) => {
             const Icon = stage.icon;
-            
+            const isCompleted = stage.status === 'completed';
+            const isActive = stage.status === 'active';
             return (
-              <div key={stage.id} className="flex gap-4 items-start relative z-10 mb-6">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm transition-colors
-                  ${stage.status === 'completed' ? 'bg-[var(--primary)] text-white' : 
-                    stage.status === 'active' ? 'bg-orange-100 border-2 border-[var(--primary)] text-[var(--primary)]' : 
-                    'bg-gray-100 text-gray-400'}`}
-                >
-                  <Icon size={14} strokeWidth={stage.status === 'active' ? 3 : 2} />
+              <div key={stage.id} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: idx < stages.length - 1 ? '1.25rem' : 0 }}>
+                {/* Step icon */}
+                <div style={{
+                  position: 'absolute', left: 0,
+                  width: '2.25rem', height: '2.25rem', borderRadius: '50%',
+                  background: isCompleted ? 'var(--primary)' : isActive ? '#fff' : 'var(--bg-color)',
+                  border: isActive ? '2.5px solid var(--primary)' : 'none',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: isCompleted ? '0 4px 12px rgba(46,158,58,0.35)' : 'var(--shadow-sm)',
+                  transition: 'all var(--transition-fast)',
+                  zIndex: 1,
+                }}>
+                  <Icon size={13} color={isCompleted ? '#fff' : isActive ? 'var(--primary)' : 'var(--text-muted)'} strokeWidth={isActive ? 3 : 2} />
                 </div>
-                <div className="flex-1 pt-1 flex justify-between">
+
+                <div style={{ flex: 1, paddingTop: '0.35rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
-                    <h4 className={`text-sm font-bold ${stage.status === 'pending' ? 'text-gray-400' : 'text-black'}`}>{stage.name}</h4>
-                    {stage.status === 'active' && <p className="text-xs text-[var(--primary)] font-semibold mt-1">Driver is currently at the restaurant</p>}
+                    <h4 style={{ fontWeight: 700, fontSize: '0.88rem', margin: 0, color: stage.status === 'pending' ? 'var(--text-muted)' : 'var(--text-main)' }}>
+                      {stage.name}
+                    </h4>
+                    {isActive && (
+                      <p style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600, margin: '0.2rem 0 0' }}>
+                        Driver is at the restaurant
+                      </p>
+                    )}
                   </div>
-                  <span className={`text-xs font-medium ${stage.status === 'pending' ? 'text-gray-300' : 'text-gray-500'}`}>{stage.time}</span>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: stage.status === 'pending' ? 'var(--border-color)' : 'var(--text-muted)', flexShrink: 0 }}>
+                    {stage.time}
+                  </span>
                 </div>
               </div>
             );

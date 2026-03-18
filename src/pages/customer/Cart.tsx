@@ -1,4 +1,4 @@
-import { ArrowLeft, MapPin, CreditCard, Banknote, Smartphone, Minus, Plus } from 'lucide-react';
+import { ArrowLeft, MapPin, CreditCard, Banknote, Smartphone, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
@@ -9,115 +9,184 @@ const Cart = () => {
   const [payment, setPayment] = useState('Mobile Money');
 
   const handleCheckout = () => {
-    // Clear cart or move to tracking
-    navigate('/customer/orders'); // we will assume orders map to tracking
+    navigate('/customer/orders');
   };
 
   const total = cart.reduce((acc, item) => acc + item.price, 0);
   const deliveryFee = total > 0 ? 2.99 : 0;
-  
+
   if (cart.length === 0) {
     return (
-      <div className="p-6 flex flex-col items-center justify-center h-full min-h-[80vh]">
-        <h2 className="text-2xl font-bold mb-2">Cart is empty</h2>
-        <button onClick={() => navigate('/customer/home')} className="btn btn-primary mt-4">Browse Restaurants</button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80svh', gap: '1rem', padding: '2rem', textAlign: 'center' }}>
+        <div style={{
+          width: '6rem', height: '6rem', borderRadius: '50%',
+          background: 'var(--primary-bg)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <ShoppingBag size={36} color="var(--primary)" />
+        </div>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0 }}>Your cart is empty</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '18rem' }}>
+          Add some delicious items to your cart and come back here.
+        </p>
+        <button onClick={() => navigate('/customer/home')} className="btn btn-primary" style={{ marginTop: '0.5rem', boxShadow: '0 6px 20px rgba(46,158,58,0.35)' }}>
+          Browse Restaurants
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="bg-[var(--bg-color)] min-h-screen pb-32 animate-fade-in w-full max-w-[600px] mx-auto">
-      <header className="p-4 bg-white flex items-center gap-4 sticky top-0 z-10 shadow-sm" style={{ backgroundColor: 'var(--surface-color)' }}>
-        <button onClick={() => navigate(-1)} className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
+    <div className="animate-fade-in" style={{ backgroundColor: 'var(--bg-color)', minHeight: '100svh', paddingBottom: '7rem' }}>
+
+      {/* ── Header ─────────────────────────────── */}
+      <header style={{
+        padding: '1rem',
+        backgroundColor: 'var(--surface-color)',
+        display: 'flex', alignItems: 'center', gap: '1rem',
+        position: 'sticky', top: 0, zIndex: 10,
+        borderBottom: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <button onClick={() => navigate(-1)} className="icon-btn icon-btn-ghost">
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-bold">My Cart</h1>
+        <div style={{ flex: 1 }}>
+          <h1 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>My Cart</h1>
+          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: '0.1rem 0 0', fontWeight: 500 }}>
+            {cart.length} item{cart.length !== 1 ? 's' : ''}
+          </p>
+        </div>
       </header>
 
-      <div className="p-4 flex flex-col gap-6">
-        <section className="bg-white p-4 rounded-2xl shadow-sm">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-bold text-lg">Delivery Address</h2>
-            <span className="text-primary text-sm font-bold cursor-pointer">Edit</span>
+      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+
+        {/* ── Delivery Address ──────────────────── */}
+        <div className="card" style={{ padding: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.875rem' }}>
+            <h2 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0 }}>Delivery Address</h2>
+            <span style={{ color: 'var(--primary)', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer' }}>Edit</span>
           </div>
-          <div className="flex gap-3">
-            <div className="mt-1"><MapPin size={24} className="text-primary" /></div>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+            <div style={{
+              width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-lg)', flexShrink: 0,
+              background: 'linear-gradient(135deg, var(--primary-light), var(--primary))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(46,158,58,0.3)',
+            }}>
+              <MapPin size={16} color="#fff" />
+            </div>
             <div>
-              <p className="font-bold text-[15px]">Home</p>
-              <p className="text-xs text-muted mt-1 leading-relaxed">123 Yankee Delivery Street<br/>Block A, Apartment 14</p>
+              <p style={{ fontWeight: 700, fontSize: '0.9rem', margin: 0 }}>Home</p>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem', lineHeight: 1.5 }}>
+                123 Yankee Delivery Street<br />Block A, Apartment 14
+              </p>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section className="bg-white p-4 rounded-2xl shadow-sm">
-           <h2 className="font-bold text-lg mb-4">Order Items</h2>
-           <div className="flex flex-col gap-4">
-             {cart.map((item, idx) => (
-               <div key={idx} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0 border-gray-100">
-                 <div className="flex items-center gap-3">
-                   <img src={item.image} alt="" className="w-12 h-12 rounded-lg object-cover" />
-                   <div>
-                     <p className="font-bold text-sm tracking-tight">{item.name}</p>
-                     <p className="text-primary font-bold text-sm mt-0.5">${item.price}</p>
-                   </div>
-                 </div>
-                 <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
-                   <Minus size={16} className="text-muted cursor-pointer" />
-                   <span className="text-sm font-bold">1</span>
-                   <Plus size={16} className="text-black cursor-pointer" />
-                 </div>
-               </div>
-             ))}
-           </div>
-        </section>
-
-        <section className="bg-white p-4 rounded-2xl shadow-sm">
-          <h2 className="font-bold text-lg mb-4">Payment Method</h2>
-          <div className="flex flex-col gap-3">
-            {[ 
-              { id: 'Mobile Money', icon: Smartphone, label: 'Mobile Money (M-Pesa, MTN)' },
-              { id: 'Card', icon: CreditCard, label: 'Credit/Debit Card' },
-              { id: 'Cash', icon: Banknote, label: 'Cash on Delivery' },
-            ].map(method => (
-              <label key={method.id} className="flex items-center justify-between p-3 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 flex-1">
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${payment === method.id ? 'bg-orange-100 text-primary' : 'bg-gray-100 text-muted'}`}>
-                    <method.icon size={20} />
-                  </div>
-                  <span className={`font-bold text-sm ${payment === method.id ? 'text-black' : 'text-muted'}`}>{method.label}</span>
+        {/* ── Order Items ────────────────────────── */}
+        <div className="card" style={{ padding: '1rem' }}>
+          <h2 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 0.875rem' }}>Order Items</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+            {cart.map((item, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', paddingBottom: idx < cart.length - 1 ? '0.875rem' : 0, borderBottom: idx < cart.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
+                <img src={item.image} alt="" style={{ width: '3.5rem', height: '3.5rem', borderRadius: 'var(--radius-lg)', objectFit: 'cover', flexShrink: 0 }} />
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontWeight: 700, fontSize: '0.88rem', margin: 0, letterSpacing: '-0.01em' }}>{item.name}</p>
+                  <p style={{ color: 'var(--primary)', fontWeight: 800, fontSize: '0.88rem', margin: '0.2rem 0 0' }}>${item.price}</p>
                 </div>
-                <input 
-                  type="radio" 
-                  name="payment" 
-                  checked={payment === method.id} 
-                  onChange={() => setPayment(method.id)}
-                  className="w-5 h-5 accent-primary" 
-                />
-              </label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-color)', borderRadius: 'var(--radius-lg)', padding: '0.3rem 0.5rem' }}>
+                  <button style={{ border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}>
+                    <Minus size={15} />
+                  </button>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 700, minWidth: '1.2rem', textAlign: 'center' }}>1</span>
+                  <button style={{ border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--primary)' }}>
+                    <Plus size={15} />
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
 
-        <section className="bg-white p-4 rounded-2xl shadow-sm">
-          <h2 className="font-bold text-lg mb-4">Order Summary</h2>
-          <div className="flex justify-between items-center mb-2 text-sm">
-            <span className="text-muted font-medium">Subtotal</span>
-            <span className="font-bold">${total.toFixed(2)}</span>
+        {/* ── Payment Method ────────────────────── */}
+        <div className="card" style={{ padding: '1rem' }}>
+          <h2 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 0.875rem' }}>Payment Method</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+            {[
+              { id: 'Mobile Money', icon: Smartphone, label: 'Mobile Money', sub: 'M-Pesa, MTN', color: '#E8F5E9', iconColor: 'var(--primary)' },
+              { id: 'Card', icon: CreditCard, label: 'Debit / Credit Card', sub: 'Visa, Mastercard', color: '#E3F2FD', iconColor: '#2196F3' },
+              { id: 'Cash', icon: Banknote, label: 'Cash on Delivery', sub: 'Pay when delivered', color: '#FFF3E0', iconColor: '#F5A623' },
+            ].map(method => {
+              const active = payment === method.id;
+              return (
+                <label key={method.id} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '0.75rem',
+                  borderRadius: 'var(--radius-lg)',
+                  border: active ? '2px solid var(--primary)' : '1.5px solid var(--border-color)',
+                  cursor: 'pointer',
+                  background: active ? 'var(--primary-bg)' : 'var(--surface-color)',
+                  transition: 'all var(--transition-fast)',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-lg)', background: method.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <method.icon size={18} color={method.iconColor} />
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 700, fontSize: '0.88rem', margin: 0 }}>{method.label}</p>
+                      <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: '0.1rem 0 0', fontWeight: 500 }}>{method.sub}</p>
+                    </div>
+                  </div>
+                  <div style={{
+                    width: '1.25rem', height: '1.25rem', borderRadius: '50%',
+                    border: active ? 'none' : '2px solid var(--border-color)',
+                    background: active ? 'var(--primary)' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    {active && <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: '#fff' }} />}
+                  </div>
+                  <input type="radio" name="payment" checked={active} onChange={() => setPayment(method.id)} style={{ display: 'none' }} />
+                </label>
+              );
+            })}
           </div>
-          <div className="flex justify-between items-center mb-4 text-sm">
-            <span className="text-muted font-medium">Delivery Fee</span>
-            <span className="font-bold">${deliveryFee.toFixed(2)}</span>
+        </div>
+
+        {/* ── Order Summary ─────────────────────── */}
+        <div className="card" style={{ padding: '1rem' }}>
+          <h2 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 0.875rem' }}>Order Summary</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.625rem' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 500 }}>Subtotal</span>
+            <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>${total.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-            <span className="font-bold text-lg">Total</span>
-            <span className="font-bold text-primary text-xl">${(total + deliveryFee).toFixed(2)}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.875rem' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 500 }}>Delivery Fee</span>
+            <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>${deliveryFee.toFixed(2)}</span>
           </div>
-        </section>
+          <div style={{ height: 1, background: 'var(--border-color)', marginBottom: '0.875rem' }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 800, fontSize: '1.05rem' }}>Total</span>
+            <span style={{ fontWeight: 900, fontSize: '1.2rem', color: 'var(--primary)' }}>${(total + deliveryFee).toFixed(2)}</span>
+          </div>
+        </div>
       </div>
 
-      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[600px] bg-white p-4 border-t border-gray-100 z-50 shadow-[var(--shadow-float)]">
-        <button onClick={handleCheckout} className="btn btn-primary btn-full shadow-lg text-lg h-14">
-          Place Order
+      {/* ── Sticky Checkout Button ─────────────── */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
+        width: '100%', maxWidth: '480px',
+        padding: '1rem',
+        paddingBottom: 'calc(1rem + var(--safe-bottom))',
+        background: 'var(--surface-color)',
+        borderTop: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-float)',
+        zIndex: 50,
+      }}>
+        <button onClick={handleCheckout} className="btn btn-primary btn-full" style={{ padding: '1.1rem', fontSize: '1rem', boxShadow: '0 6px 20px rgba(46,158,58,0.4)' }}>
+          Place Order · ${(total + deliveryFee).toFixed(2)}
         </button>
       </div>
     </div>

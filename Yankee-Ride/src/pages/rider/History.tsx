@@ -1,16 +1,29 @@
+import { Receipt } from 'lucide-react';
+
 const History = () => {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-50 pb-safe pt-safe px-5 animate-fade-in relative z-10">
-          <div className="page-header sticky top-0 bg-gray-50 z-20 pb-4 mb-4">
-            <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Delivery History</h1>
+      <div className="animate-fade-in" style={{
+        display: 'flex', flexDirection: 'column', minHeight: '100svh',
+        backgroundColor: 'var(--bg-color)', color: 'var(--text-main)',
+        padding: '1rem', paddingBottom: 'calc(var(--nav-height) + var(--safe-bottom) + 1rem)'
+      }}>
+          <div className="page-header sticky top-0 bg-gray-50 z-20" style={{ background: 'var(--bg-color)', borderBottom: 'none', boxShadow: 'none' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>Delivery History</h1>
           </div>
           
-          <div className="flex-1 flex flex-col items-center justify-center text-center pb-20 mt-10">
-             <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
-                <span className="text-3xl">📜</span>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+             <div style={{
+               width: '5rem', height: '5rem', borderRadius: 'var(--radius-full)',
+               background: 'var(--surface-color)',
+               display: 'flex', alignItems: 'center', justifyContent: 'center',
+               marginBottom: '1.5rem', boxShadow: 'var(--shadow-sm)', border: '1px solid var(--border-color)'
+             }}>
+                <Receipt size={32} color="var(--text-muted)" />
              </div>
-             <h2 className="text-xl font-bold text-gray-800 mb-2">No past deliveries</h2>
-             <p className="text-gray-500 max-w-[250px]">When you complete a delivery, it will appear here.</p>
+             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>No past deliveries</h2>
+             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '250px', lineHeight: 1.5 }}>
+               When you complete a delivery, it will appear here.
+             </p>
           </div>
       </div>
     );

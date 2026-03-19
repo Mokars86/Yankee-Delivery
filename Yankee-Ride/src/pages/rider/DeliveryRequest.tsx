@@ -34,18 +34,31 @@ const DeliveryRequest = () => {
 
   if (status === 'accepted') {
     return (
-      <div className="h-screen bg-primary flex flex-col items-center justify-center text-white px-6 animate-fade-in relative z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-20%] w-[60%] h-[40%] bg-white/10 rounded-full blur-[80px]" />
+      <div className="animate-fade-in" style={{
+        height: '100svh',
+        background: 'linear-gradient(160deg, #1E7A28 0%, #2E9E3A 55%, #3DB84A 100%)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        color: '#fff', padding: '1.5rem', position: 'relative', overflow: 'hidden'
+      }}>
+        <div style={{ position: 'absolute', top: '-10%', left: '-20%', width: '60%', height: '40%', background: 'rgba(255,255,255,0.1)', borderRadius: '50%', filter: 'blur(80px)' }} />
         
-        <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl relative z-10 animate-bounce">
-          <CheckCircle2 className="w-12 h-12 text-primary" />
+        <div className="animate-bounce" style={{
+          width: '6rem', height: '6rem', background: '#fff', borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.25)', position: 'relative', zIndex: 10
+        }}>
+          <CheckCircle2 size={48} color="var(--primary)" />
         </div>
-        <h1 className="text-3xl font-extrabold mb-2 text-center drop-shadow-md">Order Accepted!</h1>
-        <p className="text-center text-white/90 text-lg font-medium">Navigating to pickup...</p>
+        <h1 style={{ fontSize: '1.875rem', fontWeight: 800, marginBottom: '0.5rem', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>Order Accepted!</h1>
+        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.9)', fontSize: '1.125rem', fontWeight: 500 }}>Navigating to pickup...</p>
         
         <button 
            onClick={() => navigate('/rider/dashboard')}
-           className="mt-12 bg-white/20 hover:bg-white/30 text-white border border-white/50 py-3 px-8 rounded-full font-bold transition-all backdrop-blur-md"
+           style={{
+             marginTop: '3rem', background: 'rgba(255,255,255,0.2)', color: '#fff',
+             border: '1px solid rgba(255,255,255,0.5)', padding: '0.75rem 2rem', borderRadius: 'var(--radius-full)',
+             fontWeight: 700, backdropFilter: 'blur(12px)'
+           }}
         >
           Return to Dashboard
         </button>
@@ -55,112 +68,121 @@ const DeliveryRequest = () => {
 
   if (status === 'declined') {
      return (
-       <div className="h-screen bg-gray-900 flex flex-col items-center justify-center text-white px-6 animate-fade-in relative overflow-hidden">
-         <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mb-6 border border-gray-700">
-           <span className="text-3xl font-bold text-gray-400">×</span>
+       <div className="animate-fade-in" style={{
+         height: '100svh', background: '#111827', display: 'flex', flexDirection: 'column',
+         alignItems: 'center', justifyContent: 'center', color: '#fff', padding: '1.5rem', position: 'relative', overflow: 'hidden'
+       }}>
+         <div style={{
+           width: '5rem', height: '5rem', background: '#1F2937', borderRadius: '50%',
+           display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem',
+           border: '1px solid #374151'
+         }}>
+           <span style={{ fontSize: '1.875rem', fontWeight: 700, color: '#9CA3AF' }}>×</span>
          </div>
-         <h1 className="text-3xl font-extrabold mb-2 text-center text-gray-300">Order Declined</h1>
-         <p className="text-center text-gray-500 font-medium tracking-wide">Returning to dashboard...</p>
+         <h1 style={{ fontSize: '1.875rem', fontWeight: 800, marginBottom: '0.5rem', textAlign: 'center', color: '#D1D5DB' }}>Order Declined</h1>
+         <p style={{ textAlign: 'center', color: '#6B7280', fontWeight: 500, letterSpacing: '0.025em' }}>Returning to dashboard...</p>
        </div>
      );
   }
 
   // Incoming Request View
   return (
-    <div className="h-screen flex flex-col bg-gray-900 text-white animate-fade-in relative overflow-hidden">
+    <div className="animate-fade-in" style={{
+      height: '100svh', display: 'flex', flexDirection: 'column', background: '#111827', color: '#fff', position: 'relative', overflow: 'hidden'
+    }}>
       
       {/* Map Background Simulation */}
-      <div className="absolute inset-0 z-0 opacity-40 mix-blend-screen scale-110">
-        <div className="w-full h-full bg-[url('https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/-0.1276,51.5072,13,0/600x800?access_token=pk.eyJ1IjoiZGVsZWdpZSIsImEiOiJjbGo4azlkZjYwcHI0M2xseWNzcWltd3FiIn0.KxZtZzjD_7s_tVw5-7H7_Q')] bg-cover bg-center filter grayscale contrast-150" />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: 0.4, mixBlendMode: 'screen', transform: 'scale(1.1)' }}>
+        <div style={{ width: '100%', height: '100%', background: "url('https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/-0.1276,51.5072,13,0/600x800?access_token=pk.eyJ1IjoiZGVsZWdpZSIsImEiOiJjbGo4azlkZjYwcHI0M2xseWNzcWltd3FiIn0.KxZtZzjD_7s_tVw5-7H7_Q')", backgroundSize: 'cover', backgroundPosition: 'center', filter: 'grayscale(100%) contrast(150%)' }} />
       </div>
       
       {/* Radar Ping Animation */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-32 h-32">
-        <div className="absolute inset-0 border-4 border-primary rounded-full opacity-0 animate-ping" style={{ animationDuration: '2s' }}></div>
-        <div className="absolute inset-0 border-4 border-primary rounded-full opacity-0 animate-ping" style={{ animationDuration: '2s', animationDelay: '0.5s' }}></div>
-        <div className="absolute inset-4 bg-primary/20 backdrop-blur-sm rounded-full flex justify-center items-center shadow-[0_0_30px_rgba(245,166,35,0.5)]">
-           <MapPin className="text-primary w-8 h-8 fill-primary stroke-white" />
+      <div style={{ position: 'absolute', top: '33.333%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 0, width: '8rem', height: '8rem' }}>
+        <div className="animate-ping" style={{ position: 'absolute', inset: 0, border: '4px solid var(--primary)', borderRadius: '50%', opacity: 0, animationDuration: '2s' }}></div>
+        <div className="animate-ping" style={{ position: 'absolute', inset: 0, border: '4px solid var(--primary)', borderRadius: '50%', opacity: 0, animationDuration: '2s', animationDelay: '0.5s' }}></div>
+        <div style={{ position: 'absolute', inset: '1rem', background: 'rgba(46, 158, 58, 0.2)', backdropFilter: 'blur(4px)', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 30px rgba(46, 158, 58, 0.5)' }}>
+           <MapPin size={32} color="#fff" fill="var(--primary)" />
         </div>
       </div>
 
       {/* Header */}
-      <div className="relative z-10 flex justify-between items-center p-6 pt-safe">
-        <button onClick={handleDecline} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10 active:scale-95 transition-transform">
-          <ArrowLeft size={20} className="text-white relative right-px" />
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'env(safe-area-inset-top, 1.5rem) 1.5rem 1.5rem' }}>
+        <button onClick={handleDecline} style={{ width: '2.5rem', height: '2.5rem', borderRadius: '50%', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer' }}>
+          <ArrowLeft size={20} color="#fff" style={{ position: 'relative', right: '1px' }} />
         </button>
-        <div className="flex flex-col items-center flex-1">
-          <h2 className="uppercase tracking-widest text-[10px] text-gray-400 font-bold mb-0.5">Delivery Request</h2>
-          <div className="bg-primary/20 backdrop-blur-md text-primary-light font-black text-lg px-4 py-1.5 rounded-full border border-primary/30 flex items-center gap-2">
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+          <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.625rem', color: '#9CA3AF', fontWeight: 700, marginBottom: '0.125rem' }}>Delivery Request</h2>
+          <div style={{ background: 'rgba(46, 158, 58, 0.2)', backdropFilter: 'blur(12px)', color: 'var(--primary-light)', fontWeight: 900, fontSize: '1.125rem', padding: '0.375rem 1rem', borderRadius: 'var(--radius-full)', border: '1px solid rgba(46, 158, 58, 0.3)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Clock size={16} className="animate-pulse" />
             00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
           </div>
         </div>
-        <div className="w-10" /> {/* Spacer */}
+        <div style={{ width: '2.5rem' }} /> {/* Spacer */}
       </div>
 
-      <div className="flex-1" />
+      <div style={{ flex: 1 }} />
 
       {/* Bottom Information Card */}
-      <div className="relative z-10 bg-white text-gray-900 rounded-t-[2.5rem] p-6 pt-8 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
+      <div style={{ position: 'relative', zIndex: 10, background: 'var(--surface-color)', color: 'var(--text-main)', borderRadius: '2.5rem 2.5rem 0 0', padding: '2rem 1.5rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem)', boxShadow: '0 -10px 40px rgba(0,0,0,0.2)' }}>
         
         {/* Payout Head */}
-        <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-6">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
           <div>
-            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Estimated Payout</p>
-            <div className="flex items-baseline gap-1">
-              <span className="text-5xl font-black tracking-tighter text-gray-900">$8.50</span>
+            <p style={{ color: 'var(--text-muted)', fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Estimated Payout</p>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
+              <span style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-0.05em', color: 'var(--text-main)', lineHeight: 1 }}>$8.50</span>
             </div>
           </div>
-          <div className="bg-primary/10 w-16 h-16 rounded-[1.25rem] flex items-center justify-center border border-primary/20 shadow-sm">
-             <CircleDollarSign size={32} className="text-primary" />
+          <div style={{ background: 'var(--primary-bg)', width: '4rem', height: '4rem', borderRadius: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(46, 158, 58, 0.2)', boxShadow: 'var(--shadow-sm)' }}>
+             <CircleDollarSign size={32} color="var(--primary)" />
           </div>
         </div>
 
         {/* Route Details */}
-        <div className="relative mb-8">
+        <div style={{ position: 'relative', marginBottom: '2rem' }}>
            {/* Connecting Line */}
-           <div className="absolute left-4 top-5 bottom-6 w-0.5 bg-gray-200" />
+           <div style={{ position: 'absolute', left: '1rem', top: '1.25rem', bottom: '1.5rem', width: '2px', background: 'var(--border-color)' }} />
 
            {/* Pickup */}
-           <div className="flex items-start gap-4 mb-6 relative">
-             <div className="bg-gray-900 w-8 h-8 rounded-full flex items-center justify-center z-10 border-[3px] border-white shadow-sm flex-shrink-0">
-                <span className="w-2.5 h-2.5 bg-white rounded-full block" />
+           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.5rem', position: 'relative' }}>
+             <div style={{ background: 'var(--text-main)', width: '2rem', height: '2rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10, border: '3px solid var(--surface-color)', boxShadow: 'var(--shadow-sm)', flexShrink: 0 }}>
+                <span style={{ width: '0.625rem', height: '0.625rem', background: '#fff', borderRadius: '50%', display: 'block' }} />
              </div>
              <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Pickup • 1.2 mi away</p>
-                <h3 className="font-extrabold text-lg text-gray-900 leading-tight">Burger King (Times Square)</h3>
-                <p className="text-sm text-gray-500">120 W 42nd St</p>
+                <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.125rem' }}>Pickup • 1.2 mi away</p>
+                <h3 style={{ fontWeight: 800, fontSize: '1.125rem', color: 'var(--text-main)', lineHeight: 1.25 }}>Burger King (Times Square)</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>120 W 42nd St</p>
              </div>
            </div>
 
            {/* Drop-off */}
-           <div className="flex items-start gap-4 relative">
-             <div className="bg-primary w-8 h-8 rounded-full flex items-center justify-center z-10 border-[3px] border-white shadow-sm flex-shrink-0">
-                <MapPin size={14} className="text-white fill-white" />
+           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', position: 'relative' }}>
+             <div style={{ background: 'var(--primary)', width: '2rem', height: '2rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10, border: '3px solid var(--surface-color)', boxShadow: 'var(--shadow-sm)', flexShrink: 0 }}>
+                <MapPin size={14} color="#fff" fill="#fff" />
              </div>
              <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Drop-off • 2.5 mi from pickup</p>
-                <h3 className="font-extrabold text-lg text-gray-900 leading-tight">Empire State Building</h3>
-                <p className="text-sm text-gray-500">Apt 4B</p>
+                <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.125rem' }}>Drop-off • 2.5 mi from pickup</p>
+                <h3 style={{ fontWeight: 800, fontSize: '1.125rem', color: 'var(--text-main)', lineHeight: 1.25 }}>Empire State Building</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Apt 4B</p>
              </div>
            </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4">
+        <div style={{ display: 'flex', gap: '1rem' }}>
           <button 
             onClick={handleDecline} 
-            className="w-16 h-16 rounded-[1.25rem] bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 active:scale-95 transition-transform flex-shrink-0 hover:bg-gray-100"
+            style={{ width: '4rem', height: '4rem', borderRadius: '1.25rem', background: 'var(--bg-color)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}
           >
-            <span className="text-3xl leading-none font-medium mb-1">×</span>
+            <span style={{ fontSize: '1.875rem', lineHeight: 1, fontWeight: 500, marginBottom: '0.25rem' }}>×</span>
           </button>
           
           <button 
             onClick={handleAccept} 
-            className="flex-1 bg-primary text-white rounded-[1.25rem] flex items-center justify-center font-bold text-xl tracking-wide shadow-[0_4px_16px_rgba(245,166,35,0.4)] hover:bg-primary-dark transition-all active:scale-95 gap-3"
+            style={{ flex: 1, background: 'var(--primary)', color: '#fff', borderRadius: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.25rem', letterSpacing: '0.025em', boxShadow: '0 4px 16px rgba(46, 158, 58, 0.4)', border: 'none', cursor: 'pointer', gap: '0.75rem', transition: 'all 0.2s' }}
           >
             ACCEPT ORDER
-            <Navigation className="w-5 h-5 fill-white rotate-45" />
+            <Navigation size={20} fill="#fff" style={{ transform: 'rotate(45deg)' }} />
           </button>
         </div>
 

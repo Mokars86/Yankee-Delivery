@@ -229,6 +229,52 @@ body {
   .bottom-nav a.active, .bottom-nav a[aria-current="page"] {
     color: var(--primary);
   }
+
+  /* Shared bottom navigation styles */
+  .bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 3px;
+    padding: 8px 4px 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .bottom-nav-link.active {
+    color: var(--primary);
+  }
+  
+  /* Icon container with animated active indicator */
+  .nav-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-xl);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+  
+  .nav-icon-wrap.active {
+    background-color: var(--primary-bg);
+    transform: translateY(-1px);
+  }
+  
+  .bottom-nav-link:active .nav-icon-wrap {
+    transform: scale(0.9);
+  }
 }
 
 input, textarea, select {
@@ -249,6 +295,6 @@ input, textarea, select {
 input::placeholder, textarea::placeholder { color: var(--text-muted); }
 input:focus, textarea:focus, select:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(244, 130, 37, 0.18);
+  box-shadow: 0 0 0 3px rgba(46, 158, 58, 0.18);
   background-color: var(--surface-color);
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Navigation, Bike, Plus, CircleDollarSign, ArrowUpRight, Clock, Star } from 'lucide-react';
+import { MapPin, Navigation, Bike, Plus, CircleDollarSign, ArrowUpRight, Clock, Star, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -7,150 +7,233 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 pb-safe animate-fade-in relative overflow-x-hidden">
+    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem', paddingBottom: '0.5rem' }}>
       
-      {/* Background Header gradient */}
-      <div className={`absolute top-0 left-0 right-0 h-64 transition-colors duration-500 ease-in-out z-0 
-        ${isOnline ? 'bg-gradient-to-b from-primary/20 to-transparent' : 'bg-gradient-to-b from-gray-300/40 to-transparent'}`} 
-      />
-
-      <div className="relative z-10">
-        
-        {/* Header section */}
-        <div className="flex justify-between items-center p-6 pt-safe">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-white rounded-full p-0.5 shadow-md relative">
-              <img 
-                src="https://ui-avatars.com/api/?name=Alex+Rider&background=random" 
-                alt="Profile" 
-                className="w-full h-full rounded-full object-cover"
-              />
-              {/* Status Dot on Avatar */}
-              <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white 
-                ${isOnline ? 'bg-primary' : 'bg-gray-400'}`} 
-              />
-            </div>
-            <div>
-              <p className="text-gray-500 text-xs font-medium tracking-wide uppercase">Welcome back</p>
-              <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Alex Rider</h1>
-            </div>
+      {/* ── Header ──────────────────────────────── */}
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{
+            width: '3.5rem', height: '3.5rem',
+            borderRadius: 'var(--radius-full)',
+            background: 'var(--surface-color)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: 'var(--shadow-sm)',
+            border: '2px solid #fff',
+            position: 'relative'
+          }}>
+            <img 
+              src="https://ui-avatars.com/api/?name=Alex+Rider&background=random" 
+              alt="Profile" 
+              style={{ width: '100%', height: '100%', borderRadius: 'var(--radius-full)', objectFit: 'cover' }}
+            />
+            {/* Status Dot on Avatar */}
+            <div style={{
+              position: 'absolute', bottom: '0', right: '0',
+              width: '14px', height: '14px', borderRadius: '50%',
+              border: '2px solid #fff',
+              background: isOnline ? 'var(--primary)' : 'var(--text-muted)'
+            }} />
           </div>
-          
-          <div className="bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1.5 border border-white">
-            <Star className="w-4 h-4 text-primary fill-primary" />
-            <span className="font-bold text-gray-800 text-sm">4.9</span>
-          </div>
-        </div>
-
-        {/* Go Online / Offline Toggle Card */}
-        <div className="px-5 mb-6">
-          <div className={`relative overflow-hidden rounded-[2rem] p-6 shadow-lg transition-all duration-300
-            ${isOnline ? 'bg-white border-2 border-primary/20 shadow-primary/10' : 'bg-white border text-gray-600'}`}>
-            
-            {/* Animated background glow when online */}
-            {isOnline && (
-              <div className="absolute -inset-4 bg-primary/10 blur-[40px] rounded-[3rem] animate-pulse" style={{ animationDuration: '3s' }} />
-            )}
-
-            <div className="relative z-10 flex flex-col items-center">
-               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors duration-300 shadow-sm
-                  ${isOnline ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500'}">
-                 <Bike className="w-8 h-8" />
-               </div>
-               
-               <h2 className={`text-2xl font-extrabold mb-1 transition-colors ${isOnline ? 'text-gray-900' : 'text-gray-500'}`}>
-                 {isOnline ? "You're Online!" : "You're Offline"}
-               </h2>
-               
-               <p className={`text-sm mb-6 text-center transition-colors ${isOnline ? 'text-gray-600' : 'text-gray-400'}`}>
-                 {isOnline ? "Waiting for delivery requests in your area..." : "Go online to start receiving delivery requests."}
-               </p>
-               
-               <button 
-                  onClick={() => setIsOnline(!isOnline)}
-                  className={`w-full py-4 px-6 rounded-[1.25rem] font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 active:scale-95 shadow-md
-                    ${isOnline 
-                      ? 'bg-red-50 text-red-600 border border-red-100 hover:bg-red-100' 
-                      : 'bg-primary text-white hover:bg-primary-dark shadow-primary/30'}`}
-               >
-                 <Navigation size={22} className={isOnline ? '' : 'fill-white'} />
-                 {isOnline ? 'GO OFFLINE' : 'GO ONLINE'}
-               </button>
+          <div>
+            <p className="text-muted" style={{ fontSize: '0.7rem', fontWeight: 600, marginBottom: '0.1rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Welcome back
+            </p>
+            <div style={{ fontWeight: 800, fontSize: '1.15rem', color: 'var(--text-main)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+              Alex Rider
             </div>
           </div>
         </div>
 
-        {/* Demo trigger: Simulate Request (Only for preview!) */}
+        {/* Rating + Bell */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            background: 'var(--surface-color)',
+            padding: '0.35rem 0.75rem',
+            borderRadius: 'var(--radius-full)',
+            boxShadow: 'var(--shadow-sm)',
+            display: 'flex', alignItems: 'center', gap: '0.35rem',
+            border: '1px solid var(--border-color)'
+          }}>
+            <Star size={16} fill="var(--primary)" color="var(--primary)" />
+            <span style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-main)' }}>4.9</span>
+          </div>
+          <button className="icon-btn icon-btn-ghost" style={{ position: 'relative' }}>
+            <Bell size={20} />
+            <span style={{
+              position: 'absolute', top: '8px', right: '8px',
+              width: '8px', height: '8px', borderRadius: '50%',
+              background: 'var(--danger)',
+              border: '2px solid var(--surface-color)',
+            }} />
+          </button>
+        </div>
+      </header>
+
+      {/* ── Go Online / Offline Toggle Card ────── */}
+      <div style={{
+        position: 'relative',
+        borderRadius: 'var(--radius-2xl)',
+        background: isOnline ? 'linear-gradient(130deg, #1E7A28 0%, #3DB84A 60%, #1E7A28 140%)' : 'var(--surface-color)',
+        border: isOnline ? 'none' : '1px solid var(--border-color)',
+        boxShadow: isOnline ? '0 8px 24px rgba(46,158,58,0.30)' : 'var(--shadow-sm)',
+        padding: '1.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        overflow: 'hidden',
+        transition: 'all var(--transition-normal)'
+      }}>
+        {/* Animated background glow when online */}
         {isOnline && (
-            <div className="px-5 mb-8 animate-fade-in">
-              <button 
-                onClick={() => navigate('/rider/request')}
-                className="w-full bg-accent/10 border-2 border-accent/20 text-accent py-3 rounded-xl font-bold flex justify-center items-center gap-2 active:scale-95 transition-transform"
-              >
-                <Plus size={20} /> [Demo] Simulate Incoming Order
-              </button>
-            </div>
+          <>
+            <div style={{ position: 'absolute', top: '-20%', right: '30%', width: '12rem', height: '12rem', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ position: 'absolute', bottom: '-40%', right: '-10%', width: '10rem', height: '10rem', borderRadius: '50%', background: 'rgba(245,166,35,0.15)' }} />
+          </>
         )}
 
-        {/* Today's Summary */}
-        <div className="px-5 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-extrabold text-gray-900 text-xl tracking-tight">Today's Summary</h3>
-            <span className="text-primary font-bold text-sm underline cursor-pointer">View full</span>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-             
-             {/* Earnings Card */}
-             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-[1.5rem] p-5 text-white shadow-lg relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-4 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
-                 <CircleDollarSign size={80} />
-               </div>
-               <div className="relative z-10 flex flex-col h-full justify-between">
-                 <span className="text-gray-400 text-sm font-medium flex items-center gap-1.5 mb-2">
-                   Earnings <ArrowUpRight size={14} className="text-primary-light" />
-                 </span>
-                 <div>
-                   <span className="text-3xl font-black tracking-tight">$84.50</span>
-                 </div>
-               </div>
-             </div>
-
-             {/* Deliveries Card */}
-             <div className="bg-white rounded-[1.5rem] p-5 border border-gray-100 shadow-md relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-4 opacity-5 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
-                 <MapPin size={80} />
-               </div>
-               <div className="relative z-10 flex flex-col h-full justify-between">
-                 <span className="text-gray-500 text-sm font-medium flex items-center gap-1.5 mb-2">
-                   Deliveries <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                 </span>
-                 <div className="flex items-end gap-2">
-                   <span className="text-3xl font-black text-gray-900 tracking-tight">12</span>
-                   <span className="text-gray-400 text-sm font-medium mb-1">trips</span>
-                 </div>
-               </div>
-             </div>
-
-             {/* Online Time */}
-             <div className="col-span-2 bg-white rounded-[1.5rem] p-4 border border-gray-100 shadow-sm flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                    <Clock size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-gray-900 font-bold text-sm">Online Time</h4>
-                    <p className="text-gray-500 text-xs">Today</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <span className="font-extrabold text-gray-900 text-lg">4h 20m</span>
-                </div>
-             </div>
-
-          </div>
+        <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+           <div style={{
+             width: '4rem', height: '4rem',
+             borderRadius: 'var(--radius-full)',
+             display: 'flex', alignItems: 'center', justifyContent: 'center',
+             background: isOnline ? 'rgba(255,255,255,0.2)' : 'var(--bg-color)',
+             color: isOnline ? '#fff' : 'var(--text-muted)',
+             marginBottom: '1rem',
+             boxShadow: isOnline ? 'none' : 'inset 0 2px 4px rgba(0,0,0,0.04)'
+           }}>
+             <Bike size={32} />
+           </div>
+           
+           <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: isOnline ? '#fff' : 'var(--text-main)', margin: '0 0 0.35rem' }}>
+             {isOnline ? "You're Online!" : "You're Offline"}
+           </h2>
+           
+           <p style={{ fontSize: '0.85rem', color: isOnline ? 'rgba(255,255,255,0.85)' : 'var(--text-muted)', textAlign: 'center', margin: '0 0 1.5rem', fontWeight: 500 }}>
+             {isOnline ? "Waiting for delivery requests in your area..." : "Go online to start receiving delivery requests."}
+           </p>
+           
+           <button 
+              onClick={() => setIsOnline(!isOnline)}
+              style={{
+                width: '100%',
+                padding: '1.05rem',
+                borderRadius: 'var(--radius-xl)',
+                fontWeight: 800,
+                fontSize: '1.05rem',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.625rem',
+                transition: 'all var(--transition-normal)',
+                cursor: 'pointer',
+                border: 'none',
+                background: isOnline ? '#fff' : 'var(--primary)',
+                color: isOnline ? 'var(--danger)' : '#fff',
+                boxShadow: isOnline ? '0 4px 14px rgba(0,0,0,0.1)' : '0 4px 14px rgba(46,158,58,0.35)',
+              }}
+           >
+             <Navigation size={22} fill={isOnline ? 'var(--danger)' : '#fff'} color={isOnline ? 'var(--danger)' : '#fff'} />
+             {isOnline ? 'GO OFFLINE' : 'GO ONLINE'}
+           </button>
         </div>
       </div>
+
+      {/* Demo trigger: Simulate Request (Only for preview!) */}
+      {isOnline && (
+        <div className="animate-fade-in">
+          <button 
+            onClick={() => navigate('/rider/request')}
+            style={{
+              width: '100%',
+              padding: '1rem',
+              borderRadius: 'var(--radius-xl)',
+              background: 'var(--accent-bg)',
+              border: '2px dashed var(--accent)',
+              color: '#d97706',
+              fontWeight: 800,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+              cursor: 'pointer'
+            }}
+          >
+            <Plus size={20} /> [Demo] Simulate Incoming Order
+          </button>
+        </div>
+      )}
+
+      {/* ── Today's Summary ────────────────────── */}
+      <section style={{ paddingBottom: '0.5rem' }}>
+        <div className="section-header">
+          <h2 style={{ fontSize: '1.05rem', margin: 0 }}>Today's Summary</h2>
+          <span className="see-all">View all</span>
+        </div>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem' }}>
+           
+           {/* Earnings Card */}
+           <div className="card" style={{
+             background: 'var(--text-main)',
+             color: '#fff',
+             padding: '1.25rem',
+             position: 'relative',
+             overflow: 'hidden',
+             display: 'flex', flexDirection: 'column', gap: '0.75rem'
+           }}>
+             <CircleDollarSign size={80} style={{ position: 'absolute', top: '-10px', right: '-15px', opacity: 0.1, color: '#fff' }} />
+             <div style={{ zIndex: 1 }}>
+               <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                 Earnings <ArrowUpRight size={14} color="var(--primary-light)" />
+               </span>
+               <div style={{ fontSize: '1.75rem', fontWeight: 900, marginTop: '0.35rem', letterSpacing: '-0.03em' }}>
+                 $84.50
+               </div>
+             </div>
+           </div>
+
+           {/* Deliveries Card */}
+           <div className="card" style={{
+             padding: '1.25rem',
+             position: 'relative',
+             overflow: 'hidden',
+             display: 'flex', flexDirection: 'column', gap: '0.75rem'
+           }}>
+             <MapPin size={80} style={{ position: 'absolute', top: '-10px', right: '-15px', color: 'var(--bg-color)', zIndex: 0 }} />
+             <div style={{ zIndex: 1 }}>
+               <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                 Deliveries
+                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }} className="animate-pulse" />
+               </span>
+               <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginTop: '0.35rem' }}>
+                 <span style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-main)', letterSpacing: '-0.03em' }}>12</span>
+                 <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>trips</span>
+               </div>
+             </div>
+           </div>
+
+           {/* Online Time */}
+           <div className="card" style={{
+             gridColumn: '1 / -1',
+             padding: '1rem 1.25rem',
+             display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+           }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{
+                  width: '2.5rem', height: '2.5rem',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--primary-bg)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'var(--primary)'
+                }}>
+                  <Clock size={18} />
+                </div>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-main)' }}>Online Time</h4>
+                  <p style={{ margin: 0, fontSize: '0.7rem', fontWeight: 500, color: 'var(--text-muted)' }}>Today</p>
+                </div>
+              </div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
+                4h <span style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>20m</span>
+              </div>
+           </div>
+
+        </div>
+      </section>
     
     </div>
   );
